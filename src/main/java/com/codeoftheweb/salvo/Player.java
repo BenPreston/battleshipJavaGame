@@ -4,7 +4,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 
 @Entity
@@ -24,9 +27,10 @@ public class Player {
     private String email;
     private String password;
 
+    @OneToMany(mappedBy = "player", fetch=FetchType.EAGER)
+    private Set<Score> scores = new HashSet<>();
 
-
-    public Player() {}
+        public Player() {}
 
         public Player(String first, String last, String userName, String email, String password) {
             this.firstName = first;
@@ -56,13 +60,22 @@ public class Player {
 
         public void setPassword (String password) { this.password = password;}
 
+        public void addScores (Score score) {
+            scores.add(score);
+        }
+
         public Long getId() { return this.id;}
 
         public String getEmail() { return this.email;}
 
+           // This code is following a set Score from the browser but at the moment I dont understand it and Shadam said
+    // it might be the wrong idea.
 
+       public Set<Score> getScores() {
+         return scores;
+      }
 
-    public String toString() {
+        public String toString() {
             return firstName + " " + lastName;
         }
 

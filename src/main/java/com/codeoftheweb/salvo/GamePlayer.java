@@ -3,7 +3,6 @@ package com.codeoftheweb.salvo;
         import org.hibernate.annotations.GenericGenerator;
 
         import javax.persistence.*;
-        import java.text.DateFormat;
         import java.util.Date;
         import java.util.Set;
 
@@ -27,7 +26,12 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer",fetch = FetchType.EAGER)
     private Set<Ship> ships;
 
-    public GamePlayer() {}
+    @OneToMany(mappedBy="gamePlayer",fetch = FetchType.EAGER)
+    private Set<Salvo> salvoes;
+
+    public GamePlayer() {
+
+    }
 
     public GamePlayer(Date creationDate, Player player, Game game) {
 
@@ -46,6 +50,13 @@ public class GamePlayer {
 
         Set<Ship> ships = this.ships;
         return ships;
+
+    }
+
+    public Set<Salvo> getSalvoes() {
+
+        Set<Salvo> salvoes = this.salvoes;
+        return salvoes;
 
     }
 

@@ -19,8 +19,10 @@ public class Game {
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
-       private Date creationDate;
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
+    private  Set<Score> scores = new HashSet<>();
 
+    private Date creationDate;
 
     public Game() {}
 
@@ -35,6 +37,13 @@ public class Game {
 
     public Set<GamePlayer> getGamePlayers() { return this.gamePlayers;}
 
+    // Add functions add score and get score to the game class (same as player class)
+
+    public void addScores (Score score) { scores.add(score); }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
 }
 
 

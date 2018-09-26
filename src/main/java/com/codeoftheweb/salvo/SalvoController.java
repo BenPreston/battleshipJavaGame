@@ -64,6 +64,18 @@ public class SalvoController {
             dto.put("gamePlayers", getGamePlayers(gamePlayer.getGame().getGamePlayers()));
             dto.put("ships", findShips(gamePlayer.getShips()));
 
+            // I want to add an array or List of Salvoes.
+            // I want to get these by going to the gamePlayer and add a getSavloes()
+
+        dto.put("salvoesFired", findSalvoes(gamePlayer.getSalvoes()));
+
+            // Now I want to add the shots fired at me
+
+        dto.put("salvoesReceived",
+                findSalvoes(getOpponent(gamePlayer, gamePlayer.getGame().getGamePlayers()).getSalvoes()));
+
+//        dto.put("salvoesReceived", gamePlayer.getGame().getGamePlayers());
+
             return dto;
         }
 
@@ -75,6 +87,7 @@ public class SalvoController {
         dto.put("gameID", game.getId());
         dto.put("dateCreated", game.getCreationDate());
         dto.put("gamePlayers", getGamePlayers(game.getGamePlayers()));
+        dto.put("scores", getScores(game.getScores()));
 
             return dto;
         }
@@ -95,6 +108,22 @@ public class SalvoController {
             return dto;
         }
 
+    public List<Map> findSalvoes(Set<Salvo> salvoes) {
+        return salvoes
+                .stream()
+                .map(salvo -> getSalvoesDTO(salvo))
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, Object> getSalvoesDTO(Salvo salvoes) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+
+        dto.put("turn", salvoes.getTurnNumber());
+        dto.put("position", salvoes.getSalvoLocation());
+
+        return dto;
+    }
+
         public List<Map> getGamePlayers(Set<GamePlayer> gamePlayers) {
             return  gamePlayers
                     .stream()
@@ -109,10 +138,28 @@ public class SalvoController {
         dto.put("gamePlayerID", gamePlayer.getGamePlayerID());
         dto.put("player", getPlayerDetails(gamePlayer.getGamePlayer()));
 
+        return dto;
+    }
 
+    public List<Map> getScores(Set<Score> scores) {
+        return  scores
+                .stream()
+                .map(score -> getScoresDTO(score))
+                .collect(Collectors.toList());
+
+    }
+
+    public Map<String, Object> getScoresDTO(Score score) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+
+        dto.put("scoreID", score.getID());
+        dto.put("playerUsername", score.getPlayer().getUserName());
+        dto.put("playerID", score.getPlayer().getId());
+        dto.put("score", score.getResult());
 
         return dto;
     }
+
 
     public Map<String, Object> getPlayerDetails(Player player) {
         Map<String, Object> dtoPlayer = new LinkedHashMap<>();
@@ -121,7 +168,25 @@ public class SalvoController {
         dtoPlayer.put("email", player.getEmail());
 
         return dtoPlayer;
-
 }
+
+    // Here I want to create a method that gets the opponent Gameplayer
+
+    public  GamePlayer getOpponent(GamePlayer user, Set<GamePlayer> gamePlayers) {
+
+    // I want to go to the gamePlayer and from there the game
+
+        GamePlayer opponent = null;
+        for (GamePlayer gamePlayer : gamePlayers)  {
+            if (gamePlayer != user ) {
+                opponent = gamePlayer;
+                break;
+            } else {
+                 opponent = null;
+            }
+        }
+            return opponent;
+    }
+    // I then want to create a method that says pick the other gamePlayer
 
 }

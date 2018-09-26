@@ -1,0 +1,17 @@
+table, td, tr {
+    border: 1px solid black;
+    padding: 5px;
+    width: 50px;
+}
+
+.ship {
+    background-color: blue;
+   }
+
+.salvo {
+    background-color: red;
+      }
+
+ .shipsalvo {
+    background-color: orange;
+ }
