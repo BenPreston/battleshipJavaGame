@@ -68,6 +68,10 @@ public class Player {
 
         public String getEmail() { return this.email;}
 
+        public String getPassword() { return this.password;}
+
+        public String getUsername() { return this.userName;}
+
            // This code is following a set Score from the browser but at the moment I dont understand it and Shadam said
     // it might be the wrong idea.
 
